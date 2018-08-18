@@ -65,3 +65,25 @@ route del default
 route add default gw 172.0.0.1 wlan0
 
 ```
+
+## 极路由默认dnsmasq.conf配置
+
+极路由`/etc/dnsmasq.conf`中添加一下，更改默认网关及dns
+```
+dhcp-option=option:router,172.0.0.10,172.0.0.1
+option dhcp_option 'option:dns-server,172.0.0.10,172.0.0.1'
+
+```
+
+## chinadns 启动
+```
+#!/bin/bash
+nohup ./src/chinadns -c ./chnroute.txt -m -p 5354 -s 114.114.114.114,127.0.0.1:5300 1> ./log/info.log 2> ./log/err.log &
+```
+
+## ss-tunnel启动
+```
+#!/bin/bash
+nohup ss-tunnel -c /etc/shadowsocks-libev/config-tunnel.json -L 8.8.8.8:53 -u &
+```
+
